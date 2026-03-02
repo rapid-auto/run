@@ -15,37 +15,35 @@ HEADERS = {
 
 def run():
     # --- 1. RANDOM START (0 to 2.5 Hours) ---
-    # 9000 seconds = 150 minutes
     pre_wait = random.randint(0, 9000)
-    print(f"[{datetime.now()}] GitHub Triggered. Waiting {pre_wait//60}m {pre_wait%60}s before starting.")
+    # flush=True ensures this message shows up in GitHub Actions immediately
+    print(f"[{datetime.now()}] GitHub Triggered. Waiting {pre_wait//60}m {pre_wait%60}s before starting.", flush=True)
     time.sleep(pre_wait)
 
     # --- 2. REQUEST A (90s Timeout) ---
-    print(f"[{datetime.now()}] Sending Request A...")
+    print(f"[{datetime.now()}] Sending Request A...", flush=True)
     try:
         response_a = requests.get(URL_A, headers=HEADERS, timeout=90)
-        # ONLY PRINTING STATUS CODE
-        print(f"Request A Status Code: {response_a.status_code}")
+        print(f"Request A Status Code: {response_a.status_code}", flush=True)
     except requests.exceptions.Timeout:
-        print("Error: Request A timed out after 1:30 minutes.")
+        print("Error: Request A timed out after 1:30 minutes.", flush=True)
     except Exception as e:
-        print(f"Error on A: {e}")
+        print(f"Error on A: {e}", flush=True)
 
     # --- 3. RANDOM GAP (2 to 4 Minutes) ---
     gap = random.randint(120, 240)
-    print(f"Waiting {gap}s before Request B...")
+    print(f"Waiting {gap}s before Request B...", flush=True)
     time.sleep(gap)
 
     # --- 4. REQUEST B (90s Timeout) ---
-    print(f"[{datetime.now()}] Sending Request B...")
+    print(f"[{datetime.now()}] Sending Request B...", flush=True)
     try:
         response_b = requests.get(URL_B, headers=HEADERS, timeout=90)
-        # ONLY PRINTING STATUS CODE
-        print(f"Request B Status Code: {response_b.status_code}")
+        print(f"Request B Status Code: {response_b.status_code}", flush=True)
     except requests.exceptions.Timeout:
-        print("Error: Request B timed out after 1:30 minutes.")
+        print("Error: Request B timed out after 1:30 minutes.", flush=True)
     except Exception as e:
-        print(f"Error on B: {e}")
+        print(f"Error on B: {e}", flush=True)
 
 if __name__ == "__main__":
     run()
