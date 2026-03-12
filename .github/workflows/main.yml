@@ -1,31 +1,22 @@
-name: 8x Daily Randomized Requester
-
+name: 8x Daily API Trigger
 on:
   schedule:
-    # This triggers at minute 0 of every 3rd hour (UTC)
     - cron: '0 */3 * * *'
-  workflow_dispatch: # This adds a "Run workflow" button for manual testing
+  workflow_dispatch:
 
 jobs:
-  execute-script:
+  execute-api-call:
     runs-on: ubuntu-latest
+    permissions:
+      actions: write  # This is critical for the GitHub API to work
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Run Randomized Script
+      - run: pip install requests
+      - name: Run Script
         env:
-          # This pulls your private URLs from GitHub Secrets
           URL_A: ${{ secrets.URL_A }}
-          URL_B: ${{ secrets.URL_B }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python script.py
