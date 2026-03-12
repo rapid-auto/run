@@ -4,11 +4,10 @@ import random
 import os
 from datetime import datetime
 
-# URLs and Token from environment
+# Grab variables from the 'env' section of the YAML
 URL_A = os.environ.get("URL_A")
-TOKEN = os.environ.get("TOKEN")
+TOKEN = os.environ.get("MY_API_TOKEN")
 
-# GitHub API Headers
 HEADERS = {
     'Authorization': f'Bearer {TOKEN}',
     'Accept': 'application/vnd.github+json',
@@ -16,37 +15,43 @@ HEADERS = {
     'User-Agent': 'Python-Requests'
 }
 
-# The body required by GitHub to know which branch to run
 DATA = '{"ref": "main"}'
 
 def run():
-    # --- 1. RANDOM START (0 to 2.5 Hours) ---
+    # --- SAFE DEBUG CHECK ---
+    print(f"[{datetime.now()}] Checking Environment...", flush=True)
+    if not URL_A:
+        print("❌ ERROR: URL_A is missing from Secrets!", flush=True)
+    if not TOKEN:
+        print("❌ ERROR: TOKEN is missing from Secrets!", flush=True)
+    else:
+        # This tells us it exists without revealing the secret
+        print(f"✅ Token received (Length: {len(TOKEN)})", flush=True)
+
+    # --- 1. RANDOM START ---
     pre_wait = random.randint(0, 0)
-    print(f"[{datetime.now()}] Triggered. Waiting {pre_wait//60}m before starting.", flush=True)
+    print(f"Waiting {pre_wait//60}m before API calls...", flush=True)
     time.sleep(pre_wait)
 
-    # --- 2. FIRST EXECUTION ---
-    print(f"[{datetime.now()}] Sending First API Dispatch...", flush=True)
+    # --- 2. FIRST CALL ---
+    print(f"Sending First API Dispatch to {URL_A}...", flush=True)
     try:
-        # GitHub Dispatch requires a POST request
         resp1 = requests.post(URL_A, headers=HEADERS, data=DATA, timeout=90)
-        # 204 is the standard "Success" code for this GitHub API
         print(f"First Request Status: {resp1.status_code}", flush=True)
+        if resp1.status_code == 401:
+            print("Status 401: GitHub is still rejecting the token. Check 'workflow' permissions.", flush=True)
     except Exception as e:
-        print(f"Error on First Request: {e}", flush=True)
+        print(f"Error: {e}", flush=True)
 
-    # --- 3. RANDOM GAP (2 to 4 Minutes) ---
-    gap = random.randint(0, 0)
-    print(f"Waiting {gap}s before repeating...", flush=True)
-    time.sleep(gap)
+    # --- 3. GAP ---
+    time.sleep(random.randint(0, 0))
 
-    # --- 4. SECOND EXECUTION ---
-    print(f"[{datetime.now()}] Sending Second API Dispatch...", flush=True)
+    # --- 4. SECOND CALL ---
     try:
         resp2 = requests.post(URL_A, headers=HEADERS, data=DATA, timeout=90)
         print(f"Second Request Status: {resp2.status_code}", flush=True)
     except Exception as e:
-        print(f"Error on Second Request: {e}", flush=True)
+        print(f"Error: {e}", flush=True)
 
 if __name__ == "__main__":
     run()
