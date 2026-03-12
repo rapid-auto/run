@@ -36,7 +36,7 @@ def run():
         print(f"Error on First Request: {e}", flush=True)
 
     # --- 3. RANDOM GAP (2 to 4 Minutes) ---
-    gap = random.randint(120, 240)
+    gap = random.randint(0, 0)
     print(f"Waiting {gap}s before repeating...", flush=True)
     time.sleep(gap)
 
