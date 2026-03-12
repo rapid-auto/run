@@ -2,13 +2,14 @@ name: 8x Daily API Trigger
 on:
   schedule:
     - cron: '0 */3 * * *'
-  workflow_dispatch:
+  workflow_dispatch: # Allows you to test manually
 
 jobs:
   execute-api-call:
     runs-on: ubuntu-latest
     permissions:
-      actions: write  # This is critical for the GitHub API to work
+      actions: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -18,5 +19,6 @@ jobs:
       - name: Run Script
         env:
           URL_A: ${{ secrets.URL_A }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # This line maps your Secret 'TOKEN' to a Python variable
+          MY_API_TOKEN: ${{ secrets.TOKEN }} 
         run: python script.py
