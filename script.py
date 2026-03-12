@@ -6,11 +6,11 @@ from datetime import datetime
 
 # URLs and Token from environment
 URL_A = os.environ.get("URL_A")
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+TOKEN = os.environ.get("TOKEN")
 
 # GitHub API Headers
 HEADERS = {
-    'Authorization': f'Bearer {GITHUB_TOKEN}',
+    'Authorization': f'Bearer {TOKEN}',
     'Accept': 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28',
     'User-Agent': 'Python-Requests'
@@ -21,7 +21,7 @@ DATA = '{"ref": "main"}'
 
 def run():
     # --- 1. RANDOM START (0 to 2.5 Hours) ---
-    pre_wait = random.randint(0, 9000)
+    pre_wait = random.randint(0, 0)
     print(f"[{datetime.now()}] Triggered. Waiting {pre_wait//60}m before starting.", flush=True)
     time.sleep(pre_wait)
 
