@@ -29,7 +29,7 @@ def run():
         print(f"✅ Token received (Length: {len(TOKEN)})", flush=True)
 
     # --- 1. RANDOM START ---
-    pre_wait = random.randint(0, 0)
+    pre_wait = random.randint(0, 9000)
     print(f"Waiting {pre_wait//60}m before API calls...", flush=True)
     time.sleep(pre_wait)
 
@@ -44,7 +44,7 @@ def run():
         print(f"Error: {e}", flush=True)
 
     # --- 3. GAP ---
-    time.sleep(random.randint(0, 0))
+    time.sleep(random.randint(120, 240))
 
     # --- 4. SECOND CALL ---
     try:
