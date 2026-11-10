@@ -29,7 +29,7 @@ def run():
         print(f"✅ Token received (Length: {len(TOKEN)})", flush=True)
 
     # --- 1. RANDOM START ---
-    pre_wait = random.randint(0, 2160)
+    pre_wait = random.randint(0, 1000)
     print(f"Waiting {pre_wait//60}m before API calls...", flush=True)
     time.sleep(pre_wait)
 
