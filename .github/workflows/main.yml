@@ -1,7 +1,7 @@
-name: 20x Daily API Trigger
+name: 24x Daily API Trigger
 on:
   schedule:
-    - cron: '*/72 * * * *'
+    - cron: '0 * * * *'
   workflow_dispatch: # Allows you to test manually
 
 jobs:
