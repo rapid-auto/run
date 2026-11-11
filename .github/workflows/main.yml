@@ -2,6 +2,7 @@ name: 24x Daily API Trigger
 on:
   schedule:
     - cron: '*/10 * * * *'
+      timezone: 'America/Vancouver'
   workflow_dispatch: # Allows you to test manually
 
 jobs:
